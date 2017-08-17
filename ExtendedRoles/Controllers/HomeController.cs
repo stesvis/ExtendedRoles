@@ -3,14 +3,25 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using ExtendedRoles.Models;
+using Microsoft.AspNet.Identity;
 
 namespace ExtendedRoles.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         public ActionResult Index()
         {
-            return View();
+            var model = new UserRoleViewModel
+            {
+                IsSuperAdmin = User.IsInRole("SuperAdmin"),
+                IsManager = User.IsInRole("Manager"),
+                IsAdmin = User.IsInRole("Admin"),
+                IsDriver = User.IsInRole("Driver"),
+            };
+
+            return View(model);
         }
 
         public ActionResult About()
